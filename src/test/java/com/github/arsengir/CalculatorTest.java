@@ -1,48 +1,60 @@
 package com.github.arsengir;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class CalculatorTest {
 
     @Test
     void test_plus(){
-        Integer expected = 4;
-
         Calculator calc = Calculator.instance.get();
         Integer actual = calc.plus.apply(2, 2);
 
-        Assertions.assertEquals(expected, actual);
+        assertThat(actual, equalTo(4));
     }
 
     @Test
     void test_minus(){
-        Integer expected = -2;
-
         Calculator calc = Calculator.instance.get();
         Integer actual = calc.minus.apply(3, 5);
 
-        Assertions.assertEquals(expected, actual);
+        assertThat(actual, equalTo(-2));
     }
 
     @Test
     void test_divide(){
-        Double expected = 2.5;
-
         Calculator calc = Calculator.instance.get();
         Double actual = calc.divide.apply(5.0, 2.0);
 
-        Assertions.assertEquals(expected, actual);
+        assertThat(actual, equalTo(2.5));
     }
 
     @Test
     void test_divide_zero(){
-        Double expected = Double.POSITIVE_INFINITY;
-
         Calculator calc = Calculator.instance.get();
         Double actual = calc.divide.apply(5.0, 0.0);
 
-        Assertions.assertEquals(expected, actual);
+        assertThat(actual, equalTo(Double.POSITIVE_INFINITY));
+    }
+
+
+    @Test
+    public void test_divide_whenCompare_thenCorrect() {
+        Calculator calc = Calculator.instance.get();
+        Double actual = calc.divide.apply(10.0, 3.0);
+
+        assertThat(actual, closeTo(3.33333, 0.00001));
+    }
+
+    @Test
+    public void test_abs() {
+        Calculator calc = Calculator.instance.get();
+        Integer actual = calc.abs.apply(-5);
+
+        assertThat(actual, allOf(greaterThan(0), equalTo(5)));
     }
 
 }
